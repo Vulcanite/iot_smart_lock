@@ -115,8 +115,7 @@ def chatbot(request):
                     l1 = []
                     for i in range(len(l)):
                         if l[i] not in stop_words and l[i] != "name":
-                            l1.append(l[i])
-
+                            l1.append(l[i])  
                     name1 = logs(NAME=l1[0])
                     name1.save()
 

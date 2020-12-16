@@ -63,7 +63,7 @@
                                 </div><br>
                                 {% csrf_token %}
                                 <button onclick="showInput()" class="btn btn-dark mx-auto" type="submit" id="sendbtn">SEND OTP</button><br><br>                                  
-                                <form id="verify" method="GET" style="display: none">
+                                <form id="verify" method="POST" style="display: none" action="">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label for="OTP">Enter OTP to unlock:</label><br>
@@ -92,7 +92,6 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" crossorigin="anonymous"></script>
     <script src="https://dl.dropbox.com/s/jlcuq9b7r1r3pbu/sendotp.js"></script>
-    <script src="https://dl.dropbox.com/s/v7jtxe9co81f3p8/verifyotp.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {

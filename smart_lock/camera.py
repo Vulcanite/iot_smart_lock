@@ -3,6 +3,7 @@ import urllib.request
 import cv2
 import numpy as np
 from .models import logs
+import time
 
 
 class VideoCamera(object):

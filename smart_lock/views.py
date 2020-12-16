@@ -11,6 +11,8 @@ from smart_lock.decorators import unauthenticated_user, allowed_users, admin_onl
 from smart_lock.models import logs
 from datetime import date
 from django.http import JsonResponse
+from smart_lock.recognizer import FaceRecognizer
+import time
 
 
 @login_required(login_url='login')
@@ -25,20 +27,23 @@ def dashboard(request):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['ADMIN', 'VIEW_UNLOCK'])
-def unlock(request):
-    return render(request, "unlock.html")
-
-
-@login_required(login_url='login')
 def chatbot(request):
     return render(request, "chatbot.html")
 
 
 # CAMERA SETUP
 def gen(camera):
+    timeout = time.time() + 10   # 5 minutes from now
     while True:
         frame = camera.get_frame()
+        if time.time() > timeout:
+            break
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+def gen1(camera):
+    while True:
+        frame = camera.recognizer()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
@@ -50,6 +55,10 @@ def video_feed(request):
 
 def webcam_feed(request):
     return StreamingHttpResponse(gen(IPWebCam()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
+
+def recognizer_feed(request):
+    return StreamingHttpResponse(gen1(FaceRecognizer()),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -105,26 +114,26 @@ def send_otp(request):
     response = requests.request("GET", url, data=payload, headers=headers)
     data = response.json()
     request.session['otp_session_data'] = data['Details']
-    print(data['Details'])
     return JsonResponse({'data':data})
 
 
 # VERIFY OTP
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['ADMIN', 'VIEW_UNLOCK'])
 def verify_otp(request):
-    user_otp = request.POST.get('votp')
-    print(user_otp)
-    session_id= request.session['otp_session_data']
-    print(session_key)
-    url = "http://2factor.in/API/V1/c220d523-1bb4-11eb-b380-0200cd936042/SMS/VERIFY/"+session_id+"/"+str(user_otp)
-    print(url)
-    payload = ""
-    headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.request("GET", url)
-    data = response.json()
-    if data['Status'] == "Success":
-        return redirect('dashboard')
-    return render(request, "dashboard.html")
+    if request.method == 'POST':
+        user_otp = request.POST.get('votp')
+        session_id= request.session['otp_session_data']
+        url = "http://2factor.in/API/V1/c220d523-1bb4-11eb-b380-0200cd936042/SMS/VERIFY/"+session_id+"/"+str(user_otp)
+        headers = {'content-type': 'application/x-www-form-urlencoded'}
+        response = requests.request("GET", url, data="", headers=headers)
+        data = response.json()
+        if data['Status'] == "Success":
+            print("Success")
+            return render(request, "dashboard.html")
+        else:
+            return render(request, "restricted.html")
+    return render(request, "unlock.html")
 
 
 # TABLE DATA
@@ -134,7 +143,3 @@ def table_data(request):
     records = logs.objects.all().order_by('-VISIT_TIME')
     count = logs.objects.count()
     return render(request, 'logs.html', {'records': records, 'count': count})
-
-
-
-#, data=payload, headers=headers
