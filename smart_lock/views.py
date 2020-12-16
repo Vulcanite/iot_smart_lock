@@ -13,7 +13,7 @@ from datetime import date
 from django.http import JsonResponse
 from smart_lock.recognizer import FaceRecognizer
 import time
-
+from django.http import HttpResponse
 
 @login_required(login_url='login')
 def restricted(request):
@@ -33,7 +33,7 @@ def chatbot(request):
 
 # CAMERA SETUP
 def gen(camera):
-    timeout = time.time() + 10   # 5 minutes from now
+    timeout = time.time() + 10   # 10 seconds from now
     while True:
         frame = camera.get_frame()
         if time.time() > timeout:
@@ -52,11 +52,6 @@ def video_feed(request):
     return StreamingHttpResponse(gen(VideoCamera()),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
-
-def webcam_feed(request):
-    return StreamingHttpResponse(gen(IPWebCam()),
-                                 content_type='multipart/x-mixed-replace; boundary=frame')
-
 def recognizer_feed(request):
     return StreamingHttpResponse(gen1(FaceRecognizer()),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
@@ -67,7 +62,7 @@ def recognizer_feed(request):
 @admin_only
 def registerPage(request):
     if request.method == 'POST':
-        user_reg = User(first_name=request.POST.get('first_name'),
+        user_reg = User.objects.create_user(first_name=request.POST.get('first_name'),
                         password=request.POST.get('password1'),
                         username=request.POST.get('username'))
         try:
@@ -132,7 +127,7 @@ def verify_otp(request):
             print("Success")
             return render(request, "dashboard.html")
         else:
-            return render(request, "restricted.html")
+            return JsonResponse({"error": "Wrong OTP"})
     return render(request, "unlock.html")
 
 
@@ -143,3 +138,19 @@ def table_data(request):
     records = logs.objects.all().order_by('-VISIT_TIME')
     count = logs.objects.count()
     return render(request, 'logs.html', {'records': records, 'count': count})
+
+
+def validate_username(request):
+    username = request.POST.get('username')
+    data = {
+        'is_taken': User.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(data)
+
+
+def chat_text(request):
+    return render(request,"index.html")
+
+
+def get_bot_response(request):
+    return HttpResponse("Amish")

@@ -68,7 +68,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
-                                                <input class="form-control" type="text" id="pswd" name="username" required>
+                                                <input id="user"class="form-control" type="text" id="pswd" name="username" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="pswd">Password</label>
@@ -138,4 +138,27 @@
             });
         });
     </script>
+
+    {% block javascript %}
+    <script>
+      $("#user").change(function () {
+        var username = $(this).val();
+
+        $.ajax({
+          url: 'validate_username',
+          data: {
+            'username': username
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.is_taken) {
+              alert("A user with this username already exists.");
+            }
+          }
+        });
+
+      });
+    </script>
+    {% endblock %}
+
 </html>

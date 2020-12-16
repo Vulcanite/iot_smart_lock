@@ -125,4 +125,18 @@
             document.getElementById("sendbtn").style.display = "none";
         }
     </script>
+
+    <script type="text/javascript">
+        $("#verify").on("submit", function(){
+            $.ajax({
+                url: "verify_otp",
+                data: ("#verify").serialize,
+                success: function(data){
+                    alert(data.message);  
+                },
+                error: function(data){
+                   alert(data.responseJSON.error); // the message
+                }
+            });
+    </script>
 </html>

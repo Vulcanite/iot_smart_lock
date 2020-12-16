@@ -10,6 +10,7 @@ from django.shortcuts import render
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from django.http import HttpResponse
 
 warnings.filterwarnings('ignore')
 df = pd.read_csv("D:/Projects/chatbot/qna.txt")
@@ -76,7 +77,7 @@ flag = 1
 
 def chatbot(request):
     global flag
-    user_response = request.POST.get("your_name")
+    user_response = request.GET.get('msg')
 
     print(user_response)
     if user_response == None:
@@ -149,7 +150,5 @@ def chatbot(request):
         data = "Bye take care"
         flag = 1
 
-    context = {"response": data}
-    Json = dumps(context)
 
-    return render(request, "index.html", {"data": Json})
+    return HttpResponse(data)

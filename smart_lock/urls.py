@@ -10,11 +10,12 @@ urlpatterns = [
     path('logs', views.table_data, name='logs'),
     path('', views.loginPage, name='login'),
     path('form', views.registerPage, name='form'),
-    path('webcam_feed', views.webcam_feed, name='webcam_feed'),
     path('video_feed', views.video_feed, name='video_feed'),
     path('rec_feed', views.recognizer_feed, name='rec_feed'),
     path('logout', views.logoutUser, name="logout"),
     path('send_otp', views.send_otp, name="send_otp"),
     path('verify_otp', views.verify_otp, name="verify_otp"),
-    path('bot_response', views1.chatbot, name="bot_response")
+    path('chat', views.chat_text, name="chat"),
+    path('get', views1.chatbot, name="get"),
+    path('validate_username', views.validate_username, name='validate_username')
 ]

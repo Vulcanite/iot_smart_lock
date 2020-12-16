@@ -4,6 +4,7 @@ import pickle
 import time
 import os
 import urllib
+import datetime
 
 name={}
 labels = {"person_name": 1}
@@ -49,6 +50,9 @@ class FaceRecognizer(object):
             else:
                 name[labels[id_]] = 0
 
+        date_time = str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        frame_flip = cv2.putText(frame_flip, date_time, (5, 40), font, 0.7, (0, 255, 255), 1, cv2.LINE_AA)
         #cv2.imshow('phncam_shot', frame_flip)
         ret, jpeg = cv2.imencode('.jpg', frame_flip)
         return jpeg.tobytes()
