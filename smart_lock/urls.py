@@ -16,6 +16,5 @@ urlpatterns = [
     path('send_otp', views.send_otp, name="send_otp"),
     path('verify_otp', views.verify_otp, name="verify_otp"),
     path('chat', views.chat_text, name="chat"),
-    path('get', views1.chatbot, name="get"),
-    path('validate_username', views.validate_username, name='validate_username')
+    path('get', views1.chatbot, name="get")
 ]

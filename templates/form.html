@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://dl.dropbox.com/s/shtnmtafeg5ihrj/stylemain.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -24,7 +25,7 @@
                 <li><a class="nav-item" href="{% url 'logs' %}">Logs</a></li>
                 <li class="active"><a class="nav-item" href="#">Add Member</a></li>
                 <li><a class="nav-item" href="{% url 'verify_otp' %}">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chatbot' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
@@ -68,7 +69,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
-                                                <input id="user"class="form-control" type="text" id="pswd" name="username" required>
+                                                <input id="user"class="form-control user1" type="text" id="pswd1" name="username" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="pswd">Password</label>
@@ -104,7 +105,7 @@
     <div class="overlay"></div>
 </body>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js">
@@ -112,6 +113,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" crossorigin="anonymous"></script>
+    
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -138,27 +140,4 @@
             });
         });
     </script>
-
-    {% block javascript %}
-    <script>
-      $("#user").change(function () {
-        var username = $(this).val();
-
-        $.ajax({
-          url: 'validate_username',
-          data: {
-            'username': username
-          },
-          dataType: 'json',
-          success: function (data) {
-            if (data.is_taken) {
-              alert("A user with this username already exists.");
-            }
-          }
-        });
-
-      });
-    </script>
-    {% endblock %}
-
 </html>

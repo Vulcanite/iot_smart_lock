@@ -15,6 +15,7 @@ from smart_lock.recognizer import FaceRecognizer
 import time
 from django.http import HttpResponse
 
+
 @login_required(login_url='login')
 def restricted(request):
     return render(request, "restricted.html")
@@ -22,6 +23,7 @@ def restricted(request):
 
 @login_required(login_url='login')
 def dashboard(request):
+    request.session['lock'] = "LOCKED"
     log = logs.objects.filter(VISIT_TIME__date=date.today()).order_by('-VISIT_TIME')[:5]
     return render(request, "dashboard.html", {'log': log})
 
@@ -32,10 +34,10 @@ def chatbot(request):
 
 
 # CAMERA SETUP
-def gen(camera):
+def gen(request,camera):
     timeout = time.time() + 10   # 10 seconds from now
     while True:
-        frame = camera.get_frame()
+        frame = camera.get_frame(request.session['regname'])
         if time.time() > timeout:
             break
         yield (b'--frame\r\n'
@@ -47,10 +49,6 @@ def gen1(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-
-def video_feed(request):
-    return StreamingHttpResponse(gen(VideoCamera()),
-                                 content_type='multipart/x-mixed-replace; boundary=frame')
 
 def recognizer_feed(request):
     return StreamingHttpResponse(gen1(FaceRecognizer()),
@@ -69,11 +67,17 @@ def registerPage(request):
             user_reg.save()
             groups = Group.objects.get(name=request.POST.get('access_level'))
             groups.user_set.add(user_reg)
+            request.session['regname'] = request.POST.get('first_name')
             context = {'folder_name': request.POST.get('first_name')}
             return render(request, "dataset.html", context)
         except IntegrityError:
             messages.info(request, "Username already present!!")
     return render(request, 'form.html')
+
+
+def video_feed(request):
+    return StreamingHttpResponse(gen(request,VideoCamera()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 # LOGIN
@@ -103,7 +107,7 @@ def logoutUser(request):
 # SEND OTP
 @login_required(login_url='login')
 def send_otp(request):
-    url = "http://2factor.in/API/V1/c220d523-1bb4-11eb-b380-0200cd936042/SMS/9769788150/AUTOGEN"
+    url = "http://2factor.in/API/V1/0b8f5ce5-400e-11eb-83d4-0200cd936042/SMS/9769788150/AUTOGEN"
     payload = ""
     headers = {'content-type': 'application/x-www-form-urlencoded'}
     response = requests.request("GET", url, data=payload, headers=headers)
@@ -119,15 +123,19 @@ def verify_otp(request):
     if request.method == 'POST':
         user_otp = request.POST.get('votp')
         session_id= request.session['otp_session_data']
-        url = "http://2factor.in/API/V1/c220d523-1bb4-11eb-b380-0200cd936042/SMS/VERIFY/"+session_id+"/"+str(user_otp)
+        url = "http://2factor.in/API/V1/0b8f5ce5-400e-11eb-83d4-0200cd936042/SMS/VERIFY/"+session_id+"/"+str(user_otp)
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         response = requests.request("GET", url, data="", headers=headers)
         data = response.json()
         if data['Status'] == "Success":
             print("Success")
-            return render(request, "dashboard.html")
+            records = logs.objects.all().order_by('-VISIT_TIME')
+            count = logs.objects.count()
+            request.session['lock'] = "UNLOCKED"
+            lock_status = request.session['lock']
+            return render(request, 'logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
         else:
-            return JsonResponse({"error": "Wrong OTP"})
+            messages.info(request, 'Wrong OTP')
     return render(request, "unlock.html")
 
 
@@ -137,20 +145,9 @@ def verify_otp(request):
 def table_data(request):
     records = logs.objects.all().order_by('-VISIT_TIME')
     count = logs.objects.count()
-    return render(request, 'logs.html', {'records': records, 'count': count})
-
-
-def validate_username(request):
-    username = request.POST.get('username')
-    data = {
-        'is_taken': User.objects.filter(username__iexact=username).exists()
-    }
-    return JsonResponse(data)
+    lock_status = request.session['lock']
+    return render(request, 'logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
 
 
 def chat_text(request):
     return render(request,"index.html")
-
-
-def get_bot_response(request):
-    return HttpResponse("Amish")

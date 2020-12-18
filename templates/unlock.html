@@ -25,7 +25,7 @@
                 <li><a class="nav-item" href="{% url 'logs' %}">Logs</a></li>
                 <li><a class="nav-item" href="{% url 'form' %}">Add Member</a></li>
                 <li class="active"><a class="nav-item" href="#">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chatbot' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
@@ -71,7 +71,13 @@
                                     </div>
                                     <button type="submit" class="btn btn-dark" id="verifybtn">Verify</button>
                                 </form>
-
+                                {% if messages %}
+                                    <ul class="messages list-unstyled">
+                                        {% for message in messages %}
+                                        {% if message.tags %} <li class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

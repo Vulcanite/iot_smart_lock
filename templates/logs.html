@@ -25,7 +25,7 @@
                 <li class="active"><a class="nav-item" href="#">Logs</a></li>
                 <li><a class="nav-item" href="{% url 'form' %}">Add Member</a></li>
                 <li><a class="nav-item" href="{% url 'verify_otp' %}">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chatbot' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
@@ -62,7 +62,7 @@
                                 <div class="row align-items-center no-gutters">
                                     <div class="col mr-2">
                                         <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>LOCK STATUS</span></div>
-                                        <div class="text-dark font-weight-bold h6 mb-0"><span id="demo">UNLOCK</span></div>
+                                        <div class="text-dark font-weight-bold h6 mb-0"><span id="demo">{{lock_status}}</span></div>
                                     </div>
                                     <div class="col-auto"><i id="logo"></i></div>
                                 </div>
@@ -161,10 +161,10 @@
         });
 </script>
 <script>
-    if (document.getElementById("demo").innerText === "LOCK"){
+    if (document.getElementById("demo").innerText === "LOCKED"){
         document.getElementById("logo").className =  "fas fa-lock fa-2x text-gray-300";
     }
-    else if(document.getElementById("demo").innerText === "UNLOCK"){
+    else if(document.getElementById("demo").innerText === "UNLOCKED"){
         document.getElementById("logo").className = "fa fa-unlock fa-2x text-gray-300";
     }
 </script>

@@ -4,7 +4,8 @@ import cv2
 import numpy as np
 from .models import logs
 import time
-
+import os
+count = 0
 
 class VideoCamera(object):
     def __init__(self):
@@ -13,12 +14,23 @@ class VideoCamera(object):
     def __del__(self):
         self.video.release()
 
-    def get_frame(self):
+    def get_frame(self,name):
+        global count
+        count = count +1
         success, image = self.video.read()
         frame_flip = cv2.flip(image, 1)
-        name1 = logs(NAME="Amish")
-        name1.save()
-        ret, jpeg = cv2.imencode('.jpg', frame_flip)
+        parent_dir = "C:\\Users\\amish\\Desktop\\Trainer\\"
+        directory = name
+        path = os.path.join(parent_dir, directory)
+        try: 
+            os.mkdir(path)
+            filename = "C:\\Users\\amish\\Desktop\\Trainer\\%s\\frame%d.jpg" %(name, count)
+            cv2.imwrite(filename, frame_flip)
+            ret, jpeg = cv2.imencode('.jpg', frame_flip)
+        except OSError as error: 
+            filename = "C:\\Users\\amish\\Desktop\\Trainer\\%s\\frame%d.jpg" %(name, count)
+            cv2.imwrite(filename, frame_flip)
+            ret, jpeg = cv2.imencode('.jpg', frame_flip)
         return jpeg.tobytes()
 
 

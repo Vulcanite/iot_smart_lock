@@ -24,7 +24,7 @@
                 <li><a class="nav-item" href="{% url 'logs' %}">Logs</a></li>
                 <li class="active"><a class="nav-item" href="#">Add Member</a></li>
                 <li><a class="nav-item" href="{% url 'verify_otp' %}">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chatbot' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
@@ -57,8 +57,11 @@
                 <div class="row">
                     <div class="col-lg-6 offset-lg-3" id="capture" style="display: none;">
                         <div class="card shadow mb-4">
-                            <div class="card-body"><img id="camera" style="height: 50%; width: 100%"></div>
-                            <button  id="btn1" class="btn btn-success" style="display: none"><a class="" href="{% url 'dashboard' %}">Dashboard</a></button>
+                            <div class="card-body">
+                                <img id="camera" style="height: 50%; width: 100%">
+                                <p id="message1" style="display: none">Data Captured Succesfully!</p>
+                                <button id="btn2" class="btn btn-success" style="display:none"><a class="" href="{% url 'dashboard' %}">Dashboard</a></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,11 +140,11 @@
         document.getElementById("camera").src = "{% url 'video_feed' %}";
         document.getElementById("rules").style.display = "none";
         document.getElementById("rules1").style.display = "none";
+        setTimeout(function(){
+        document.getElementById("btn2").style.display = "block";
+        document.getElementById("camera").style.display ="none";
+        document.getElementById("message1").style.display ="block";}, 10000);
     }
-
-    function btndisplay(){
-        document.getElementById("btn1").style.display = "block";
-    }
-    setTimeout(btndisplay, 1000);
+    
     </script>
 </html>
