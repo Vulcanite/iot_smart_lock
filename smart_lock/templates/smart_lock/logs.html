@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>STATS</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://dl.dropbox.com/s/shtnmtafeg5ihrj/stylemain.css">
+    <link rel="stylesheet" href="{% static 'smart_lock/css/stylemain.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" crossorigin="anonymous">
 </head>
 
@@ -21,11 +22,11 @@
             </div>
 
             <ul id="nav-list">
-                <li><a class="nav-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="nav-item" href="dashboard">Dashboard</a></li>
                 <li class="active"><a class="nav-item" href="#">Logs</a></li>
-                <li><a class="nav-item" href="{% url 'form' %}">Add Member</a></li>
-                <li><a class="nav-item" href="{% url 'verify_otp' %}">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="form">Add Member</a></li>
+                <li><a class="nav-item" href="verify_otp">Unlock Access</a></li>
+                <li><a class="nav-item" href="chat">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
@@ -124,32 +125,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" crossorigin="anonymous"></script>
     <script src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+    <script src="{% static 'smart_lock/js/sidebar.js' %}"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-
-        $(document).ready(function () {
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
-
-            $('#dismiss, .overlay').on('click', function () {
-                $('#sidebar').removeClass('active');
-                $('.overlay').removeClass('active');
-            });
-
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').addClass('active');
-                $('.overlay').addClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
-        });
-    </script>
     <script>
         $(document).ready(function(){
           $("#searchinput").on("keyup", function() {

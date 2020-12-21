@@ -5,10 +5,11 @@ import time
 import os
 import urllib
 import datetime
+from iot_project.settings import BASE_DIR
 
 name={}
 labels = {"person_name": 1}
-with open("C:\\Users\\amish\\Desktop\\iot_project\\smart_lock\\face-labels.pkl", 'rb') as f:
+with open(str(BASE_DIR) +"/smart_lock/ML/face-labels.pkl", 'rb') as f:
     og_labels = pickle.load(f)
     labels = {v:k for k,v in og_labels.items()}
 
@@ -25,9 +26,9 @@ class FaceRecognizer(object):
     def recognizer(self):
         success, img = self.video.read()
         frame_flip = cv2.flip(img, 1)
-        face_cascade = cv2.CascadeClassifier('C:\\Users\\amish\\Desktop\\iot_project\\smart_lock\\data\\haarcascade_frontalface_default.xml')
+        face_cascade = cv2.CascadeClassifier(str(BASE_DIR) + "/smart_lock/ML/data/haarcascade_frontalface_default.xml")
         nn = cv2.face.LBPHFaceRecognizer_create()
-        nn.read("C:\\Users\\amish\\Desktop\\iot_project\\smart_lock\\face-trainner.yml")
+        nn.read(str(BASE_DIR) +"/smart_lock/ML/face-trainner.yml")
         #imgResp = urllib.request.urlopen(self.url)
         #imgNp = np.array(bytearray(imgResp.read()), dtype=np.uint8)
         #img = cv2.imdecode(imgNp, -1)

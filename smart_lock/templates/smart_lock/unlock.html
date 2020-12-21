@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>UNLOCK</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://dl.dropbox.com/s/shtnmtafeg5ihrj/stylemain.css">
+    <link rel="stylesheet" href="{% static 'smart_lock/css/stylemain.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" crossorigin="anonymous">
 </head>
 
@@ -16,20 +17,20 @@
             <div id="dismiss">
                 <i class="fas fa-arrow-left"></i>
             </div>
-            <div class="sidebar-header" style="text-align: center;">
+            <div class="sidebar-header" style="text-align: center">
                 <h4>IoT Project</h4>
             </div>
 
             <ul id="nav-list">
-                <li><a class="nav-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a class="nav-item" href="{% url 'logs' %}">Logs</a></li>
-                <li><a class="nav-item" href="{% url 'form' %}">Add Member</a></li>
+                <li><a class="nav-item" href="dashboard">Dashboard</a></li>
+                <li><a class="nav-item" href="logs">Logs</a></li>
+                <li><a class="nav-item" href="form">Add Member</a></li>
                 <li class="active"><a class="nav-item" href="#">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="chat">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
-                <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
+                <li><a href="logout" id="logout">Logout</a></li>
             </ul>
         </nav>
 
@@ -59,7 +60,7 @@
                         <div class="card shadow mb-0">
                             <div class="card-body">
                                 <div style="width: 90%; margin: auto;">
-                                    <img src="https://dl.dropbox.com/s/jlc2pcrjqhwu3r6/otp.jpg" style="width: 100%;">
+                                    <img src="{% static 'smart_lock/img/otp.jpg' %}" style="width: 100%;">
                                 </div><br>
                                 {% csrf_token %}
                                 <button onclick="showInput()" class="btn btn-dark mx-auto" type="submit" id="sendbtn">SEND OTP</button><br><br>                                  
@@ -97,52 +98,13 @@
     </script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" crossorigin="anonymous"></script>
-    <script src="https://dl.dropbox.com/s/jlcuq9b7r1r3pbu/sendotp.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-
-        $(document).ready(function () {
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
-
-            $('#dismiss, .overlay').on('click', function () {
-                $('#sidebar').removeClass('active');
-                $('.overlay').removeClass('active');
-            });
-
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').addClass('active');
-                $('.overlay').addClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });
-        });
-    </script>
+    <script src="{% static 'smart_lock/js/sendotp.js' %}"></script>
+    <script src="{% static 'smart_lock/js/sidebar.js' %}"></script>
 
     <script>
         function showInput(){
             document.getElementById("verify").style.display = "block";
             document.getElementById("sendbtn").style.display = "none";
         }
-    </script>
-
-    <script type="text/javascript">
-        $("#verify").on("submit", function(){
-            $.ajax({
-                url: "verify_otp",
-                data: ("#verify").serialize,
-                success: function(data){
-                    alert(data.message);  
-                },
-                error: function(data){
-                   alert(data.responseJSON.error); // the message
-                }
-            });
     </script>
 </html>

@@ -5,6 +5,8 @@ import numpy as np
 from .models import logs
 import time
 import os
+from iot_project.settings import BASE_DIR
+
 count = 0
 
 class VideoCamera(object):
@@ -19,16 +21,16 @@ class VideoCamera(object):
         count = count +1
         success, image = self.video.read()
         frame_flip = cv2.flip(image, 1)
-        parent_dir = "C:\\Users\\amish\\Desktop\\Trainer\\"
+        parent_dir = str(BASE_DIR) +"/smart_lock/ML/dataset/"
         directory = name
         path = os.path.join(parent_dir, directory)
         try: 
             os.mkdir(path)
-            filename = "C:\\Users\\amish\\Desktop\\Trainer\\%s\\frame%d.jpg" %(name, count)
+            filename = str(BASE_DIR) +"/smart_lock/ML/dataset/%s/frame%d.jpg" %(name, count)
             cv2.imwrite(filename, frame_flip)
             ret, jpeg = cv2.imencode('.jpg', frame_flip)
         except OSError as error: 
-            filename = "C:\\Users\\amish\\Desktop\\Trainer\\%s\\frame%d.jpg" %(name, count)
+            filename = str(BASE_DIR) +"/smart_lock/ML/dataset/%s/frame%d.jpg" %(name, count)
             cv2.imwrite(filename, frame_flip)
             ret, jpeg = cv2.imencode('.jpg', frame_flip)
         return jpeg.tobytes()

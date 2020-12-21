@@ -1,21 +1,22 @@
-import datetime
+from django.shortcuts import render
+from json import dumps
+import nltk
+import io
+import numpy as np
 import random
 import string
 import warnings
-from json import dumps
-from .models import logs
-import nltk
 import pandas as pd
-from django.shortcuts import render
 from nltk.corpus import stopwords
+import datetime
+from .models import logs
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from django.http import HttpResponse
-
+from iot_project.settings import BASE_DIR
 
 warnings.filterwarnings('ignore')
-df = pd.read_csv("D:/Projects/chatbot/qna.txt")
-f = open('D:/Projects/chatbot/q.txt', 'r', errors='ignore') #open the file
+df = pd.read_csv(str(BASE_DIR) +"/smart_lock/ML/qna.txt")
+f = open(str(BASE_DIR) +"/smart_lock/ML/q.txt", 'r', errors='ignore') #open the file
 raw=f.read()  #read the file
 raw=raw.lower()  #convert to lower case
 
@@ -54,10 +55,6 @@ def greeting(sentence):
     for word in sentence.split():
         if word.lower() in greeting_inputs:
             return random.choice(greeting_responses)
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-from sklearn.metrics.pairwise import cosine_similarity
 
 #TfidfVectorizer
 #creates a document term matrix
@@ -114,10 +111,12 @@ l=[]
 
 flag=1
 
-def chatbot(request):  
+def chatbot(request): 
+
+#while(flag==True):
     global flag    
  
-    user_response=request.GET.get("msg")
+    user_response=request.GET.get("res")
     print(user_response)
     if user_response==None:
         user_response=""
@@ -163,7 +162,7 @@ def chatbot(request):
 
                     name1 = logs(NAME=l1[0])
                     name1.save()
-                    
+
                     data="Hello "+str(l1[0])+" how can i help you"
                     flag=2
                 elif flag==1:
@@ -200,4 +199,4 @@ def chatbot(request):
         data="Bye take care"
         flag=1
 
-    return HttpResponse(data)
+    return render(request, "smart_lock/index.html",{"response":data})

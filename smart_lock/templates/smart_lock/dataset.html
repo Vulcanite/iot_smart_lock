@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Registration</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://dl.dropbox.com/s/shtnmtafeg5ihrj/stylemain.css">
+    <link rel="stylesheet" href="{% static 'smart_lock/css/stylemain.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" crossorigin="anonymous">
 </head>
 
@@ -20,15 +21,15 @@
                 <h4>IoT Project</h4>
             </div>
             <ul id="nav-list">
-                <li><a class="nav-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a class="nav-item" href="{% url 'logs' %}">Logs</a></li>
+                <li><a class="nav-item" href="dashboard">Dashboard</a></li>
+                <li><a class="nav-item" href="logs">Logs</a></li>
                 <li class="active"><a class="nav-item" href="#">Add Member</a></li>
-                <li><a class="nav-item" href="{% url 'verify_otp' %}">Unlock Access</a></li>
-                <li><a class="nav-item" href="{% url 'chat' %}">Chatbot Simulation</a></li>
+                <li><a class="nav-item" href="verify_otp">Unlock Access</a></li>
+                <li><a class="nav-item" href="chat">Chatbot Simulation</a></li>
             </ul>
 
             <ul class="list-unstyled logout">
-                <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
+                <li><a href="logout" id="logout">Logout</a></li>
             </ul>
         </nav>
 

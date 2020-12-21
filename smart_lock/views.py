@@ -18,24 +18,19 @@ from django.http import HttpResponse
 
 @login_required(login_url='login')
 def restricted(request):
-    return render(request, "restricted.html")
+    return render(request, "smart_lock/restricted.html")
 
 
 @login_required(login_url='login')
 def dashboard(request):
     request.session['lock'] = "LOCKED"
     log = logs.objects.filter(VISIT_TIME__date=date.today()).order_by('-VISIT_TIME')[:5]
-    return render(request, "dashboard.html", {'log': log})
-
-
-@login_required(login_url='login')
-def chatbot(request):
-    return render(request, "chatbot.html")
+    return render(request, "smart_lock/dashboard.html", {'log': log})
 
 
 # CAMERA SETUP
 def gen(request,camera):
-    timeout = time.time() + 10   # 10 seconds from now
+    timeout = time.time() + 5   # 10 seconds from now
     while True:
         frame = camera.get_frame(request.session['regname'])
         if time.time() > timeout:
@@ -69,10 +64,10 @@ def registerPage(request):
             groups.user_set.add(user_reg)
             request.session['regname'] = request.POST.get('first_name')
             context = {'folder_name': request.POST.get('first_name')}
-            return render(request, "dataset.html", context)
+            return render(request, "smart_lock/dataset.html", context)
         except IntegrityError:
             messages.info(request, "Username already present!!")
-    return render(request, 'form.html')
+    return render(request, 'smart_lock/form.html')
 
 
 def video_feed(request):
@@ -94,7 +89,7 @@ def loginPage(request):
             return redirect('dashboard')
         else:
             messages.info(request, 'Username or Password is incorrect')
-    return render(request, 'login.html')
+    return render(request, 'smart_lock/login.html')
 
 
 # LOGOUT
@@ -102,6 +97,16 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+
+# TABLE DATA
+@login_required(login_url='login')
+@admin_only
+def table_data(request):
+    records = logs.objects.all().order_by('-VISIT_TIME')
+    count = logs.objects.count()
+    lock_status = request.session['lock']
+    return render(request, 'smart_lock/logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
 
 
 # SEND OTP
@@ -133,21 +138,9 @@ def verify_otp(request):
             count = logs.objects.count()
             request.session['lock'] = "UNLOCKED"
             lock_status = request.session['lock']
-            return render(request, 'logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
+            return render(request, 'smart_lock/logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
         else:
             messages.info(request, 'Wrong OTP')
-    return render(request, "unlock.html")
+    return render(request, "smart_lock/unlock.html")
 
 
-# TABLE DATA
-@login_required(login_url='login')
-@admin_only
-def table_data(request):
-    records = logs.objects.all().order_by('-VISIT_TIME')
-    count = logs.objects.count()
-    lock_status = request.session['lock']
-    return render(request, 'logs.html', {'records': records, 'count': count, 'lock_status':lock_status})
-
-
-def chat_text(request):
-    return render(request,"index.html")
