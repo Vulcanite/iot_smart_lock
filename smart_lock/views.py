@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from smart_lock.recognizer import FaceRecognizer
 import time
 from django.http import HttpResponse
-
+from smart_lock.trainer import FaceTrainer
 
 @login_required(login_url='login')
 def restricted(request):
@@ -37,6 +37,9 @@ def gen(request,camera):
             break
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+    train = FaceTrainer()
+    train.trainer()
+    train.del_data()
 
 def gen1(camera):
     while True:
@@ -142,5 +145,3 @@ def verify_otp(request):
         else:
             messages.info(request, 'Wrong OTP')
     return render(request, "smart_lock/unlock.html")
-
-
