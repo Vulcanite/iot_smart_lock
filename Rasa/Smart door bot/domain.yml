@@ -1,0 +1,83 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - identify
+  - work
+  - mobile_number
+  - message
+  - extra_information
+  - thank_you
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+
+
+entities:
+  - name
+  - number
+  - note
+
+slots:
+  name:
+    type: text
+  number:
+    type: text
+  note:
+    type: text
+
+actions:
+  - action_save_name
+  - action_save_number
+  - action_save_note
+
+responses:
+  utter_greet:
+  - text: "Hey! I am flash a smart door assistant,Can i know your name please?"
+
+  utter_ask_purpose:
+  - text: "How can i help you,{name}"
+
+  utter_owner_informed:
+  - text: "Unfortunately there is no one at home but the owner has been informed of your presence"
+
+
+  utter_ask_number:
+  - text: "can you please give your number so that the owner can contact you"
+
+  utter_number_noted:
+  - text: "your number has been noted"
+
+
+  utter_message_to_pass:
+  - text: "Do you want to convey any message, please type message- and then write what you want to convey "
+
+  utter_message_noted:
+  - text: "Message noted"
+
+  utter_general_information:
+  - text: "i dont know about this but the owner will surely contact you in some time and get things sorted"
+
+
+  utter_okay_no_problem:
+  - text: "okay,No problem"
+
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a smart door bot, powered by Rasa and made by Kshitij Amish and Abhijeet"
+
+
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

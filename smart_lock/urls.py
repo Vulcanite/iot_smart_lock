@@ -17,7 +17,7 @@ urlpatterns = [
     path('logout', views.logoutUser, name="logout"),
     path('send_otp', views.send_otp, name="send_otp"),
     path('verify_otp', views.verify_otp, name="verify_otp"),
-    path('chat', views1.chatbot, name="chat")
+    path('chat', views1.index, name='index')
 ]
 
 urlpatterns += staticfiles_urlpatterns()

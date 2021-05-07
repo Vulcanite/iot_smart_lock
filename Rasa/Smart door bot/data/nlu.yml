@@ -1,0 +1,154 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - yo
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+
+
+
+- intent: identify
+  examples: |
+    - [amish]{"entity":"name"}
+    - [abhijeet]{"entity":"name"}
+    - [tanmay]{"entity":"name"}
+    - [vaishnavi]{"entity":"name"}
+    - [kshitij]{"entity":"name"}
+    - [amanda]{"entity":"name"}
+    - [yash]{"entity":"name"}
+    - [harsh]{"entity":"name"}
+    - i am [ruvin]{"entity":"name"}
+    - i am [sandhya]{"entity":"name"}
+    - my name is [vidit]{"entity":"name"}
+    - my name is [saloni]{"entity":"name"}
+    - [purva]{"entity":"name"}
+    - [sawan]{"entity":"name"}
+    - [rasika]{"entity":"name"}
+    - [vimal]{"entity":"name"}
+    - [tayyab]{"entity":"name"}
+    - [priya]{"entity":"name"}
+    - [veronica]{"entity":"name"}
+    - [fiona]{"entity":"name"}
+    - [prajna]{"entity":"name"}
+    - [lorel]{"entity":"name"}
+    - [zuks]{"entity":"name"}
+    - [abdul]{"entity":"name"}
+    - [rehman]{"entity":"name"}
+    - [pollard]{"entity":"name"}
+    - [vallabh]{"entity":"name"}
+    - [shruti]{"entity":"name"}
+    - [adonia]{"entity":"name"}
+
+    
+
+
+- intent: work
+  examples: |
+    - i am from amazon
+    - i am from flipkart
+    - i have a delivery
+    - i have a parcel
+    - i came to meet
+    - it is my sister's house
+    - came to give a surprise
+
+- intent: mobile_number
+  examples: |
+    - [9930275656]{"entity":"number"}
+    - [6754321898]{"entity":"number"}
+    - [6798234165]{"entity":"number"}
+    - my number is [7303560648]{"entity":"number"}
+    - [1234567891]{"entity":"number"}
+    - numer is [3344627432]{"entity":"number"}
+    - my mobile number is [1234567890]{"entity":"number"}
+    - [9932456788]{"entity":"number"}
+    - [1298654534]{"entity":"number"}
+
+
+- intent: message
+  examples: |
+    - message- [can they come yo my house tomorrow]{"entity":"note"}
+    - message- [please tell them to contact me urgently]{"entity":"note"}
+    - message- [need my bag urgently]{"entity":"note"}
+    - message- [important work]{"entity":"note"}
+    - message- [urgent work]{"entity":"note"}
+    - message- [giving parcel to the neighbors]{"entity":"note"}
+    - message- [leaving parcel with the neighbors]{"entity":"note"}
+
+
+- intent: extra_information
+  examples: |
+    - when will they return
+    - will they contact me
+    - when will they come back
+    - should i wait
+    - what should i do with the delivery
+    - when will they pay the money
+
+
+- intent: thank_you
+  examples: |
+    - thanks a lot
+    - thank you so much
+    - thanks
+    - thank you big help
+
+    
+
+
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - okay
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - not
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?

@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('lock/', include('smart_lock.urls')),
     path('', views.mainpage, name='main'),
-    path('details', views.details, name='details')
+    path('details', views.details, name='details'),
+    
 ]

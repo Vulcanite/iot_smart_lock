@@ -1,0 +1,152 @@
+version: "2.0"
+
+stories:
+
+
+
+  - story: happy person
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: identify
+      entities:
+        - name: kshitij
+    - action: action_save_name
+    - action: utter_ask_purpose
+    - intent: work
+    - action: utter_owner_informed
+    - action: utter_ask_number
+    - intent: mobile_number
+      entities:
+        - number: 7303560648
+    - action: action_save_number
+    - action: utter_number_noted
+    - action: utter_message_to_pass
+    - intent: message
+      entities:
+        - note: call urgent 
+    - action: action_save_note 
+    - action: utter_message_noted
+    - intent: extra_information
+    - action: utter_general_information
+    - intent: thank_you
+    - action: utter_goodbye
+
+
+  - story: happy person no general_information
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: identify
+      entities:
+        - name: kshitij
+    - action: action_save_name
+    - action: utter_ask_purpose
+    - intent: work
+    - action: utter_owner_informed
+    - action: utter_ask_number
+    - intent: mobile_number
+      entities:
+        - number: 7303560648
+    - action: action_save_number
+    - action: utter_number_noted
+    - action: utter_message_to_pass
+    - intent: message
+      entities:
+        - note: call urgent
+    - action: action_save_note 
+    - action: utter_message_noted
+    - intent: thank_you
+    - action: utter_goodbye
+
+
+
+  - story: happy person no message
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: identify
+      entities:
+        - name: kshitij
+    - action: action_save_name
+    - action: utter_ask_purpose
+    - intent: work
+    - action: utter_owner_informed
+    - action: utter_ask_number
+    - intent: mobile_number
+      entities:
+        - number: 7303560648
+    - action: action_save_number
+    - action: utter_number_noted
+    - action: utter_message_to_pass
+    - intent: deny
+    - action: utter_okay_no_problem
+    - intent: extra_information
+    - action: utter_general_information
+    - intent: thank_you
+    - action: utter_goodbye
+
+
+
+
+
+
+
+  - story: happy person no number
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: identify
+      entities:
+        - name: kshitij
+    - action: action_save_name
+    - action: utter_ask_purpose
+    - intent: work
+    - action: utter_owner_informed
+    - action: utter_ask_number
+    - intent: deny
+    - action: utter_okay_no_problem
+    - action: utter_message_to_pass
+    - intent: message
+      entities:
+        - note: call urgent
+    - action: action_save_note  
+    - action: utter_message_noted
+    - intent: extra_information
+    - action: utter_general_information
+    - intent: thank_you
+    - action: utter_goodbye
+
+
+
+
+
+  - story: happy person no details
+    steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: identify
+      entities:
+        - name: kshitij
+    - action: action_save_name
+    - action: utter_ask_purpose
+    - intent: work
+    - action: utter_owner_informed
+    - action: utter_ask_number
+    - intent: deny
+    - action: utter_okay_no_problem
+    - action: utter_message_to_pass
+    - intent: deny
+    - action: utter_okay_no_problem
+    - intent: extra_information
+    - action: utter_general_information
+    - intent: thank_you
+    - action: utter_goodbye
+
+
+
+ 
+
+
+
+
